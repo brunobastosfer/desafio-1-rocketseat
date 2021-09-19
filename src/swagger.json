@@ -11,7 +11,7 @@
     "paths": {
         "/users": {
             "post": {
-                "tags": ["User"],
+                "tags": ["Users"],
                 "summary": "Create a User",
                 "description": "Create an New User",
                 "requestBody": {
@@ -26,9 +26,250 @@
                                     "email": {
                                         "type":"string"
                                     }
+                                },
+                                "example": {
+                                    "name": "User name sample",
+                                    "email": "User email sample"
                                 }
                             }
                         }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "500": {
+                        "description": "User already Exists"
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Users"],
+                "summary": "List all users",
+                "description": "List all users",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "uuid": {
+                                        "type": "string",
+                                        "format":"uuid"
+                                    }
+                                },
+                                "example": {
+                                    "id": "3819c1c0-3b9a-4a67-b16e-fdc631f7a37"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"array",
+                                    "properties": {
+                                        "uuid": {
+                                            "type": "string",
+                                            "format":"uuid"
+                                        },
+                                        "admin": {
+                                            "type": "boolean"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date"
+                                        }
+                                    },
+                                    "example": {
+                                        "id": "3819c1c0-3b9a-4a67-b16e-fdc631f7a37",
+                                        "email": "useremail@smaple.com",
+                                        "name": "User name sample",
+                                        "admin": "False",
+                                        "created_at": "Date sample",
+                                        "updated_at": "Date sample"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Only admins can list users"
+                    },
+                    "404": {
+                        "description": "User isn't exist !"
+                    }
+                }
+            }
+        },
+        "/users/:user_id/admin": {
+            "patch": {
+                "tags": ["Users"],
+                "summary": "User Admin",
+                "description": "Turn user admin",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "uuid": {
+                                        "type": "string",
+                                        "format":"uuid",
+                                        "required": true
+                                    }
+                                },
+                                "example": {
+                                    "id": "3819c1c0-3b9a-4a67-b16e-fdc631f7a37",
+                                    "email": "useremail@smaple.com",
+                                    "name": "User name sample",
+                                    "admin": "True",
+                                    "created_at": "Date sample",
+                                    "updated_at": "Date sample"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"object",
+                                    "properties": {
+                                        "uuid": {
+                                            "type": "string",
+                                            "format":"uuid"
+                                        },
+                                        "admin": {
+                                            "type": "boolean"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date"
+                                        }
+                                    },
+                                    "example": {
+                                        "id": "3819c1c0-3b9a-4a67-b16e-fdc631f7a37",
+                                        "email": "useremail@smaple.com",
+                                        "name": "User name sample",
+                                        "admin": "True",
+                                        "created_at": "Date sample",
+                                        "updated_at": "Date sample"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User isn't exist !"
+                    }
+                }
+            }
+        },
+        "/users/:user_id": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Show user",
+                "description": "Show a specific user",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string",
+                                        "format":"uuid",
+                                        "required": true
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "required": false
+                                    }
+                                },
+                                "example": {
+                                    "id": "3819c1c0-3b9a-4a67-b16e-fdc631f7a37"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"object",
+                                    "properties": {
+                                        "uuid": {
+                                            "type": "string",
+                                            "format":"uuid"
+                                        },
+                                        "admin": {
+                                            "type": "boolean"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date"
+                                        }
+                                    },
+                                    "example": {
+                                        "id": "3819c1c0-3b9a-4a67-b16e-fdc631f7a37",
+                                        "email": "useremail@smaple.com",
+                                        "name": "User name sample",
+                                        "admin": "boolean",
+                                        "created_at": "Date sample",
+                                        "updated_at": "Date sample"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User isn't exist !"
                     }
                 }
             }
